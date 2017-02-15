@@ -22,9 +22,16 @@
 
 <body>
     <div class='container'>
-    <form method="GET" action="http://google.com">
+    <!-- <form method="GET" action="http://google.com">
         {{ form }}
         <input type="submit" value="Search">  
+    </form> -->
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="name">
+        <input type="text" name="city" placeholder="city">
+        <input type="text" name="search" placeholder="search">
+        <input type="submit">
     </form>
       
     </div>
