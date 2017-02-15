@@ -3,8 +3,13 @@ from django import forms
 class TestForm(forms.Form):
 	some_text = forms.CharField()
 	boolean = forms.BooleanField()
-	integer = forms.IntegerField()
-	email = forms.EmailField()
+	integer = forms.IntegerField(initial=10)
+	email = forms.EmailField(min_length=10)
+
+	def __init__(self, user=None, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		if user:
+			self.fields["some_text"].initial = user.username
 
 	def clean_integer(self, *args, **kargs):
 		integer = self.cleaned_data.get("integer")
