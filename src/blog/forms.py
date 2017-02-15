@@ -1,9 +1,21 @@
 from django import forms
 
+SOME_CHOICES = (
+		('value_1', 'VALUE_1'),
+		('value_2', 'VALUE_2'),
+		('value_3', 'VALUE_3'),
+	)
+
+INTS_CHOICES = [tuple([x, x]) for x in range(0, 100)]
+
+YEARS = [x for x in range(1980, 2020)]
+
 class TestForm(forms.Form):
-	some_text = forms.CharField()
+	date_field = forms.DateField(initial="2017-01-02", widget=forms.SelectDateWidget(years=YEARS))
+	some_text = forms.CharField(label="Text", widget=forms.Textarea(attrs={"rows": 4, "cols": 10}))
+	choices = forms.CharField(label="Choice", widget=forms.RadioSelect(choices=SOME_CHOICES))
 	boolean = forms.BooleanField()
-	integer = forms.IntegerField(initial=10)
+	integer = forms.IntegerField(initial=10, widget=forms.Select(choices=INTS_CHOICES))
 	email = forms.EmailField(min_length=10)
 
 	def __init__(self, user=None, *args, **kwargs):
