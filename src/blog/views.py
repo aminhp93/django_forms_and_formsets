@@ -9,15 +9,16 @@ from .forms import TestForm, PostModelForm
 
 def formset_view(request):
 	PostModelFormset = modelformset_factory(Post, fields=['user', 'title', 'slug'])
-	formset = PostModelFormset(request.POST or None)
+	formset = PostModelFormset(request.POST or None, queryset=Post.objects.filter(id__gt=4))
 
 	if formset.is_valid():
 		for form in formset:
 			print(form.cleaned_data)
 			obj = form.save(commit=False)
-			obj.title = "This title"
-			obj.publish = timezone.now()
-			obj.save()
+			if form.cleaned_data:
+				obj.title = "This title"
+				obj.publish = timezone.now()
+				obj.save()
 
 	template = "formset_view.html"
 	context = {
