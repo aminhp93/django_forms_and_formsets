@@ -3,11 +3,66 @@ from django import forms
 from .models import Post
 
 class PostModelForm(forms.ModelForm):
+	# title = forms.CharField(
+	# 	max_length=120, 
+	# 	error_messages={
+	# 		"required": "The title field is required here."
+	# 	},
+	# 	label="Test title",
+	# 	help_text="Some help text",
+	# )
 
 	class Meta:
 		model = Post
-		fields = ["user", "title", "slug"]
+		fields = [
+			"user",
+			"title",
+			"slug",
+		]
 		# exclude = ["title"]
+
+		labels = {
+			"title": "This is title label",
+			"slug": "This is slug",
+		}
+
+		help_text = {
+			"title": "This is help text",
+			"slug": "This is another slug",
+		}
+
+		error_messages = {
+			"title": {
+				"max_length": "This title is too long",
+				"required": "The title field is required",
+			},
+			"slug": {
+				"max_length": "This slug is too long",
+				"required": "The slug field is required",
+				"unique": "The slug field must be unique",
+			}
+
+		}
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		
+		self.fields["title"].error_messages = {
+			"max_length": "This title is too long",
+			"required": "The title field is required 123",
+		}
+
+		self.fields["slug"].error_messages = {
+			"max_length": "This slug is too long",
+			"required": "The slug field is required",
+			"unique": "The slug field must be unique",
+		}
+
+		for field in self.fields.values():
+			field.error_messages = {
+				"required": "You know {fieldname} is required".format(fieldname=field.label)
+			}
+
 
 	def clean_title(self, *args, **kwargs):
 		title = self.cleaned_data.get("title")
@@ -19,7 +74,7 @@ class PostModelForm(forms.ModelForm):
 	# 	obj.publish = "2017-05-29"
 	# 	obj.title = "New title"
 	# 	obj.content = "Comming soon"
-		
+
 	# 	if commit:
 	# 		obj.save()
 	# 	return obj
