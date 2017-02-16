@@ -6,7 +6,7 @@ class PostModelForm(forms.ModelForm):
 
 	class Meta:
 		model = Post
-		fields = ["user", "title",]
+		fields = ["user", "title", "slug"]
 		# exclude = ["title"]
 
 	def clean_title(self, *args, **kwargs):
@@ -14,6 +14,15 @@ class PostModelForm(forms.ModelForm):
 		print(title)
 		return title
 
+	def save(self, commit=True, *args, **kwargs):
+		obj = super().save(commit=False, *args, **kwargs)
+		obj.publish = "2017-05-29"
+		obj.title = "New title"
+		obj.content = "Comming soon"
+		
+		if commit:
+			obj.save()
+		return obj
 
 SOME_CHOICES = (
 		('value_1', 'VALUE_1'),
