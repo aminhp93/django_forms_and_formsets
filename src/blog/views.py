@@ -11,6 +11,15 @@ def home(request):
 		obj.title = "Some random title"
 		obj.publish = timezone.now()
 		obj.save()
+	if form.has_error:
+		print("15", form.errors)
+		print("16", form.errors.as_json())
+		print("17", form.errors.as_text())
+		data = form.errors.items()
+		for key, value in data:
+			print(key, value)
+			print(dir(value))
+			print(dir(key))
 
 
 	# initial_dict = {
