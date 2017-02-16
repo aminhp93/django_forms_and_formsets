@@ -12,14 +12,18 @@ def home(request):
 		obj.publish = timezone.now()
 		obj.save()
 	if form.has_error:
-		print("15", form.errors)
-		print("16", form.errors.as_json())
-		print("17", form.errors.as_text())
+		# print("15", form.errors)
+		# print("16", form.errors.as_json())
+		# print("17", form.errors.as_text())
 		data = form.errors.items()
 		for key, value in data:
-			print(key, value)
-			print(dir(value))
-			print(dir(key))
+			# print(key, value)
+			# print(dir(value))
+			# print(dir(key))
+			error_str = "{field}: {error}".format(field=key, error=value.as_text())
+			print(error_str)
+
+		# print(form.non_field_errors())
 
 
 	# initial_dict = {

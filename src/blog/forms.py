@@ -18,6 +18,7 @@ class PostModelForm(forms.ModelForm):
 			"user",
 			"title",
 			"slug",
+			"image",
 		]
 		# exclude = ["title"]
 
@@ -46,7 +47,7 @@ class PostModelForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		
+
 		self.fields["title"].error_messages = {
 			"max_length": "This title is too long",
 			"required": "The title field is required 123",
