@@ -1,9 +1,13 @@
 from django.shortcuts import render
 
-from .forms import TestForm
+from .forms import TestForm, PostModelForm
 
 # Create your views here.
 def home(request):
+	form = PostModelForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+
 	# initial_dict = {
 	# 	# "some_text": "Text",
 	# 	"boolean": True,
@@ -14,14 +18,14 @@ def home(request):
 	# 	print(form.cleaned_data)
 
 
-	form = TestForm()
-	if request.method == "POST":
-		form = TestForm(data=request.POST)
-		print(request.POST)
-		print(request.POST.get("search"))
-	elif request.method == "GET":
-		print(request.GET)
-		form = TestForm(user=request.user)
+	# form = TestForm()
+	# if request.method == "POST":
+	# 	form = TestForm(data=request.POST)
+	# 	print(request.POST)
+	# 	print(request.POST.get("search"))
+	# elif request.method == "GET":
+	# 	print(request.GET)
+	# 	form = TestForm(user=request.user)
 
 	template = "form.html"
 	context = {

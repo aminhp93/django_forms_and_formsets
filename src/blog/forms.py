@@ -1,5 +1,20 @@
 from django import forms
 
+from .models import Post
+
+class PostModelForm(forms.ModelForm):
+
+	class Meta:
+		model = Post
+		fields = ["user", "title",]
+		# exclude = ["title"]
+
+	def clean_title(self, *args, **kwargs):
+		title = self.cleaned_data.get("title")
+		print(title)
+		return title
+
+
 SOME_CHOICES = (
 		('value_1', 'VALUE_1'),
 		('value_2', 'VALUE_2'),
