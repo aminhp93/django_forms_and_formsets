@@ -1,9 +1,25 @@
+from django.forms import formset_factory, modelformset_factory
 from django.utils import timezone
 from django.shortcuts import render
 
 from .forms import TestForm, PostModelForm
 
 # Create your views here.
+
+def formset_view(request):
+	TestFormset = formset_factory(TestForm, extra=2)
+	formset = TestFormset(request.POST or None)
+
+	if formset.is_valid():
+		for form in formset:
+			print(form.cleaned_data)
+
+	template = "formset_view.html"
+	context = {
+		"formset": formset
+	}
+	return render(request, template, context)
+
 def home(request):
 	form = PostModelForm(request.POST or None)
 	if form.is_valid():
