@@ -14,15 +14,15 @@ class PostModelForm(forms.ModelForm):
 		print(title)
 		return title
 
-	def save(self, commit=True, *args, **kwargs):
-		obj = super().save(commit=False, *args, **kwargs)
-		obj.publish = "2017-05-29"
-		obj.title = "New title"
-		obj.content = "Comming soon"
+	# def save(self, commit=True, *args, **kwargs):
+	# 	obj = super().save(commit=False, *args, **kwargs)
+	# 	obj.publish = "2017-05-29"
+	# 	obj.title = "New title"
+	# 	obj.content = "Comming soon"
 		
-		if commit:
-			obj.save()
-		return obj
+	# 	if commit:
+	# 		obj.save()
+	# 	return obj
 
 SOME_CHOICES = (
 		('value_1', 'VALUE_1'),

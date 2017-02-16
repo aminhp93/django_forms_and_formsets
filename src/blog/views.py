@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render
 
 from .forms import TestForm, PostModelForm
@@ -6,7 +7,11 @@ from .forms import TestForm, PostModelForm
 def home(request):
 	form = PostModelForm(request.POST or None)
 	if form.is_valid():
-		form.save()
+		obj = form.save(commit=False)
+		obj.title = "Some random title"
+		obj.publish = timezone.now()
+		obj.save()
+
 
 	# initial_dict = {
 	# 	# "some_text": "Text",
