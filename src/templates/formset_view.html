@@ -1,12 +1,89 @@
 {% extends 'base.html' %}
-{% block content %}
-<h1>Formset View</h1>
-<form action="" method="POST">{% csrf_token %}
-	{{ formset.management_form }}
-	{% for form in formset %}
-		<div>{{ form.as_p }}</div>
-	{% endfor %}
+<script>
+{% block jquery %}
 
-	<input type="submit">
-</form>
+function updateEmptyFormIDs(element, totalForms) {
+    var thisInput = element
+        // get current form input name
+    var currentName = element.attr('name')
+        // replace "prefix" with actual number
+    var newName = currentName.replace(/__prefix__/g, totalForms)
+        // console.log(newName)
+
+    // update input with new name
+    thisInput.attr('name', newName)
+    thisInput.attr('id', "id_" + newName)
+        // create a new form row id
+    var newFormRow = element.closest(".form-row");
+    var newRowId = "row_id_" + newName
+    newFormRow.attr("id", newRowId)
+        // add new class for basic graphic animation
+    newFormRow.addClass("new-parent-row")
+        // update form group id
+    var parentDiv = element.parent();
+    parentDiv.attr("id", "parent_id_" + newName)
+        // update label id
+    var inputLabel = parentDiv.find("label")
+    inputLabel.attr("for", "id_" + newName)
+
+    // return created row
+    return newFormRow
+}
+
+
+
+$('.add-new-form').click(function(e) {
+    e.preventDefault();
+    var formId = "id_form-TOTAL_FORMS"
+
+    // copy empty form
+    var emptyRow = $('#empty-row').clone();
+
+    // reomvoe id form new form
+    emptyRow.attr("id", null)
+
+    // insert row after last row
+
+    // get starting form count for formset
+    var totalForms = parseInt($('#' + formId).val());
+
+    // create a new form row from empty form row
+    var newFormRow;
+    emptyRow.find("input, select, textarea").each(function() {
+        newFormRow = updateEmptyFormIDs($(this), totalForms);
+    })
+
+    // insert new form at the end of the last form row
+    $(".form-row:last").after(newFormRow);
+
+    // update total form count (to include new row)
+    $("#" + formId).val(totalForms + 1);
+
+    // scroll page to new row
+    $('html, body').animate({
+        scrollTop: newFormRow.offset().top - 100
+    }, 500, function() {
+        // animate background color
+        newFormRow.animate({
+            backgroundColor: "red"
+        }, 1500)
+    })
+
+}) 
+{% endblock %}
+</script>
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+    <h1>Formset View</h1>
+    <form action="" method="POST">{% csrf_token %} {{ formset.management_form }} {% for form in formset %}
+        <div class="form-row">{{ form.as_p }}</div>
+        {% endfor %}
+        <div class="form-row" id="empty-row">
+            {{ formset.empty_form.as_p }}
+        </div>
+        <input type="submit" class="btn btn-primary">
+        <a href="/" class="btn btn-default">Cancel</a>
+        <a href="#" class="btn btn-default add-new-form">Add new form</a>
+    </form>
+</div>
 {% endblock %}
