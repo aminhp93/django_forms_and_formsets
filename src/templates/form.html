@@ -22,17 +22,7 @@
 
 <body>
     <div class='container'>
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <p>{{ form.user }}</p>
-        <p><label for="{{ form.title.id_for_label }}">{{ form.title.label }} | {{ form.title.id_for_label }}</label>{{ form.title }}
-        {% if form.title.errors %}
-        <div style="color:red">{{ form.title.errors.as_text }}</div> {% endif %}</p>
-        <p>{{ form.slug }}</p>
-        <p>{{ form.image }}</p>
-        <input type="submit" value="Search">  
-    </form>
+    {% include 'form_snippet.html' with form=form as_ul=True %}
     <!-- <form action="" method="POST">
         {% csrf_token %}
         <input type="text" name="name" placeholder="name">

@@ -1,0 +1,21 @@
+<!-- <form method="POST" action="">
+    {% csrf_token %} {{ form.non_field_errors }}
+    <p>{{ form.user }}</p>
+    <p>
+        <label for="{{ form.title.id_for_label }}">{{ form.title.label }} | {{ form.title.id_for_label }}</label>{{ form.title }} {% if form.title.errors %}
+        <div style="color:red">{{ form.title.errors.as_text }}</div> {% endif %}</p>
+    <p>{{ form.slug }}</p>
+    <p>{{ form.image }}</p>
+    <input type="submit" value="Search">
+</form>
+ -->
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {% if as_p %}
+        {{ form.as_p }}
+    {% else %}
+        {{ form.as_ul }}
+    {% endif %}
+    <input type="submit" value="Search">
+</form>
